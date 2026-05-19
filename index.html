@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <title>Grattis på födelsedagen!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --accent: #ffcc66;
+      --accent-2: #ff9f1c;
+      --text: #f7f7f7;
+      --card: #1b2238;
+      --button: #ff9f1c;
+      --button-text: #1b2238;
+      --shadow: rgba(0,0,0,0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e2950 0, #050814 60%, #02020b 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 860px;
+    }
+
+    .card {
+      position: relative;
+      background: linear-gradient(135deg, #202844, #111525);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 24px 60px var(--shadow);
+      overflow: hidden;
+    }
+
+    .confetti {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,204,102,0.35) 0, transparent 55%),
+        radial-gradient(circle at 80% 0, rgba(255,159,28,0.30) 0, transparent 55%),
+        radial-gradient(circle at 5% 100%, rgba(87,204,153,0.22) 0, transparent 55%),
+        radial-gradient(circle at 95% 80%, rgba(246,109,155,0.26) 0, transparent 55%);
+      opacity: 0.7;
+      animation: confettiMove 12s linear infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes confettiMove {
+      from { transform: translate3d(-10px, -10px, 0); }
+      to   { transform: translate3d(10px, 10px, 0); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    @media (max-width: 720px) {
+      .content {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .headline {
+      font-size: clamp(2rem, 3.1vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+    }
+
+    .subline {
+      font-size: 1rem;
+      opacity: 0.88;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .note {
+      font-size: 0.95rem;
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    .floating {
+      animation: float 5.5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-6px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 12px;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffcc66 0, #ff9f1c 70%);
+      box-shadow: 0 0 12px rgba(255,204,102,0.8);
+    }
+
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--button-text);
+      background: linear-gradient(135deg, var(--button), #ffe066);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, filter 0.12s ease-out;
+    }
+
+    .primary-btn span.icon {
+      font-size: 1.1rem;
+      margin-left: 6px;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.55);
+    }
+
+    .primary-btn:active {
+      transform: translateY(0px) scale(0.98);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.4);
+    }
+
+    .photo-frame {
+      position: relative;
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      background: radial-gradient(circle at top left, #444b7a 0, #171b30 52%, #050611 100%);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+    }
+
+    .photo-frame img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 1.2s ease-in-out;
+    }
+
+    .photo-frame img.hidden {
+      opacity: 0;
+    }
+
+    .badge-corner {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+    }
+
+    .badge-corner small {
+      opacity: 0.9;
+    }
+
+    .screen {
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(14px);
+      position: absolute;
+      inset: 24px;
+    }
+
+    .screen.active {
+      opacity: 1;
+      transform: translateY(0);
+      position: relative;
+    }
+
+    .gift-title {
+      font-size: clamp(1.55rem, 2.4vw, 2rem);
+      margin-bottom: 10px;
+    }
+
+    .gift-highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .timeline {
+      margin-top: 14px;
+      padding-left: 0;
+      list-style: none;
+      border-left: 2px solid rgba(255,255,255,0.12);
+    }
+
+    .timeline li {
+      margin-left: 12px;
+      padding-left: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .timeline li::before {
+      content: "";
+      position: absolute;
+      left: -13px;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent) 0, var(--accent-2) 70%);
+      box-shadow: 0 0 10px rgba(255,204,102,0.7);
+    }
+
+    .mini-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.7;
+      margin-top: 6px;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    .footer-note strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <div class="confetti"></div>
+
+      <!-- SKÄRM 1: hälsning -->
+      <div id="screen1" class="screen active">
+        <div class="content">
+          <section>
+            <div class="pill floating">
+              <span class="pill-dot"></span>
+              <span>Födelsedagshälsning på distans</span>
+            </div>
+            <h1 class="headline floating">Grattis på födelsedagen, pappa!</h1>
+            <p class="subline">
+              Även om vi inte kan sitta vid samma bord idag så tänker vi på dig,
+              firar dig och skickar en stor kram över avståndet.
+            </p>
+            <p class="note">
+              Tack för all värme, humor och alla goda måltider du har delat med oss
+              genom åren. Vi är så tacksamma för dig – och vi längtar redan till
+              nästa gång vi kan sitta runt ett bord tillsammans.
+            </p>
+
+            <button id="revealButton" class="primary-btn">
+              Klicka här för att öppna din födelsedagspresent
+              <span class="icon">✨</span>
+            </button>
+          </section>
+
+          <aside>
+            <div class="photo-frame floating">
+              <img src="20260105_Photo_35.jpg" alt="Födelsedagsbild" />
+              <div class="badge-corner">
+                <span>🎂</span>
+                <small>Födelsedag 2026</small>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- SKÄRM 2: presenten -->
+      <div id="screen2" class="screen hidden">
+        <div class="content">
+          <section>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>Presenten (utan inslagspapper)</span>
+            </div>
+
+            <h2 class="gift-title">
+              I sommar blir det <span class="gift-highlight">riktig restaurangkväll</span> –
+              du, vi och barnen.
+            </h2>
+
+            <p class="subline">
+              Din födelsedagspresent är en <strong>restaurangkväll efter ditt val</strong>
+              när vi kommer i sommar – vi bjuder. Vi bokar, vi betalar, du bara njuter.
+            </p>
+
+            <ul class="timeline">
+              <li><strong>Steg 1:</strong> Du har en fin födelsedag idag hemma.</li>
+              <li><strong>Steg 2:</strong> När sommaren kommer och vi är på plats väljer vi en restaurang tillsammans.</li>
+              <li><strong>Steg 3:</strong> En kväll går vi ut – hela gänget – för att äta, prata och fira dig ordentligt.</li>
+            </ul>
+
+            <p class="mini-label">
+              Du är härmed inbjuden till: ”Farfar/Morfar-middagen sommaren 2026”.
+            </p>
+
+            <p class="footer-note">
+              Vi älskar dig massor – från oss allihop här. <strong>Stort grattis på födelsedagen!</strong>
+            </p>
+          </section>
+
+          <aside>
+            <div class="photo-frame">
+              <img id="slide1" src="20260105_Photo_35.jpg" alt="Familjebild 1" />
+              <img id="slide2" src="20260105_Photo_71.jpg" alt="Familjebild 2" class="hidden" />
+              <div class="badge-corner">
+                <span>🍽️</span>
+                <small>Sommar­middagen planeras…</small>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const screen1 = document.getElementById("screen1");
+    const screen2 = document.getElementById("screen2");
+    const revealButton = document.getElementById("revealButton");
+
+    revealButton.addEventListener("click", () => {
+      screen1.classList.remove("active");
+      screen1.classList.add("hidden");
+      screen2.classList.remove("hidden");
+      screen2.classList.add("active");
+    });
+
+    const img1 = document.getElementById("slide1");
+    const img2 = document.getElementById("slide2");
+    let showingFirst = true;
+
+    setInterval(() => {
+      if (!screen2.classList.contains("active")) return;
+      if (showingFirst) {
+        img1.classList.add("hidden");
+        img2.classList.remove("hidden");
+      } else {
+        img2.classList.add("hidden");
+        img1.classList.remove("hidden");
+      }
+      showingFirst = !showingFirst;
+    }, 4500);
+  </script>
+</body>
+</html>
